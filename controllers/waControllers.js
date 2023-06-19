@@ -20,18 +20,27 @@ client.on("qr", (qr) => {
     qrcode.generate(qr, { small: true });
     // console.log("QR RECEIVED", qr);
 });
-
 client.on("message", async (msg) => {
-    if (msg.body === "boleh liat listnya?") {
+    if (
+        msg.body === "boleh liat listnya?" ||
+        msg.body === "boleh liat listnya" ||
+        msg.body === "ada listnya?" ||
+        msg.body === "boleh lihat harga?" ||
+        msg.body === "boleh liat harga" ||
+        msg.body === "boleh liat harga?" ||
+        msg.body === "boleh lihat harga"
+    ) {
         const media1 = await MessageMedia.fromUrl(
-            "https://rengginangempoera.shop/images/Logo.png"
+            "https://rengginangempoera.shop/images/produk/r-h.jpg"
         );
         const media2 = await MessageMedia.fromUrl(
-            "https://rengginangempoera.shop/images/Logo.png"
+            "https://rengginangempoera.shop/images/produk/r-p.jpg"
         );
         try {
             client
-                .sendMessage(msg.from, media1, { caption: "rengginang hitam" })
+                .sendMessage(msg.from, media1, {
+                    caption: "rengginang hitam",
+                })
                 .then(() => {
                     client
                         .sendMessage(msg.from, media2, {
@@ -40,7 +49,7 @@ client.on("message", async (msg) => {
                         .then(() => {
                             client.sendMessage(
                                 msg.from,
-                                "1. Rengginang Putih (500 gram) - Rp25.000\n2. Rengginang Hitam (500 gram) - Rp25.000\n3. Rengginang Putih (1 kg) - Rp50.000\n4. Rengginang Hitam (1 kg) - Rp50.000"
+                                "- Rengginang Hitam / Putih (500 gram) - Rp25.000\n- Rengginang Hitam / Putih (1 kg) - Rp45.000\n\nhttps://rengginangempoera.shop"
                             );
                         });
                 });
@@ -56,6 +65,12 @@ client.on("message", (message) => {
     }
 });
 
+client.on("ready", () => {
+    res.json({
+        status: true,
+        message: `Whatsapp is ready ${new Date()}`,
+    });
+});
 exports.sendText = (req, res) => {
     let phone = req.query.phone;
     let message = req.query.message;
